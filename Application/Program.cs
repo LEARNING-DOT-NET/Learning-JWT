@@ -1,26 +1,27 @@
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Application
 {
-	public class Program
+	public class Program : object
 	{
+		public Program() : base()
+		{
+		}
+
 		public static void Main(string[] args)
 		{
 			CreateHostBuilder(args).Build().Run();
 		}
 
-		public static IHostBuilder CreateHostBuilder(string[] args) =>
-			Host.CreateDefaultBuilder(args)
+		public static Microsoft.Extensions.Hosting.IHostBuilder CreateHostBuilder(string[] args) =>
+			Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder(args)
 				.ConfigureWebHostDefaults(webBuilder =>
 				{
-					webBuilder.UseStartup<Startup>();
+					//webBuilder.UseStartup<Startup>();
+
+					webBuilder.UseStartup<Startup>()
+						.UseUrls("http://localhost:4000");
 				});
 	}
 }

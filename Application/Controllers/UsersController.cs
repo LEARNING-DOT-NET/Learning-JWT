@@ -101,26 +101,26 @@
 			return Ok(response);
 		}
 
-		//[Microsoft.AspNetCore.Mvc.HttpGet()]
-		//[Microsoft.AspNetCore.Mvc.ProducesResponseType
-		//	(Microsoft.AspNetCore.Http.StatusCodes.Status200OK)]
-		//public async System.Threading.Tasks.Task
-		//	<Microsoft.AspNetCore.Mvc.ActionResult<System.Collections.Generic.IEnumerable<Models.User>>>
-		//	GetAll()
-		//{
-		//	//var response =
-		//	//	UserService.GetAll();
+		[Microsoft.AspNetCore.Mvc.HttpGet(template: "GetAll")]
+		[Microsoft.AspNetCore.Mvc.ProducesResponseType
+			(Microsoft.AspNetCore.Http.StatusCodes.Status200OK)]
+		public async System.Threading.Tasks.Task
+			<Microsoft.AspNetCore.Mvc.ActionResult<System.Collections.Generic.IEnumerable<Models.User>>>
+			GetAll()
+		{
+			//var response =
+			//	UserService.GetAll();
 
-		//	System.Collections.Generic.IEnumerable<Models.User> response = null;
+			System.Collections.Generic.IEnumerable<Models.User> response = null;
 
-		//	await System.Threading.Tasks.Task.Run(() =>
-		//	{
-		//		response =
-		//			UserService.GetAll();
-		//	});
+			await System.Threading.Tasks.Task.Run(() =>
+			{
+				response =
+					UserService.GetAll();
+			});
 
-		//	return Ok(response);
-		//}
+			return Ok(response);
+		}
 
 		[Microsoft.AspNetCore.Mvc.HttpGet()]
 		[Infrastructure.Attributes.Authorize]
@@ -128,7 +128,7 @@
 			(Microsoft.AspNetCore.Http.StatusCodes.Status200OK)]
 		public async System.Threading.Tasks.Task
 			<Microsoft.AspNetCore.Mvc.ActionResult<System.Collections.Generic.IEnumerable<Models.User>>>
-			GetAll()
+			Get()
 		{
 			System.Collections.Generic.IEnumerable<Models.User> response = null;
 
