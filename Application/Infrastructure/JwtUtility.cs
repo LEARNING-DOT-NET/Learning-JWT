@@ -32,7 +32,20 @@ namespace Infrastructure
 				{
 					Subject =
 						new System.Security.Claims.ClaimsIdentity
-						(new[] { new System.Security.Claims.Claim("id", user.Id.ToString()) }),
+						(new[]
+						{
+							new System.Security.Claims.Claim
+								(type: "LastName", value: user.LastName),
+
+							new System.Security.Claims.Claim
+								(type: System.Security.Claims.ClaimTypes.Name, value: user.Username),
+
+							new System.Security.Claims.Claim
+								(type: System.Security.Claims.ClaimTypes.Email, value: user.EmailAddress),
+
+							new System.Security.Claims.Claim
+								(type: System.Security.Claims.ClaimTypes.NameIdentifier, value: user.Id.ToString()),
+						}),
 
 					Expires =
 						System.DateTime.UtcNow.AddHours(8),
@@ -72,25 +85,49 @@ namespace Infrastructure
 						ValidateIssuerSigningKey = true,
 
 						IssuerSigningKey =
-						new Microsoft.IdentityModel.Tokens.SymmetricSecurityKey(key),
+							new Microsoft.IdentityModel.Tokens.SymmetricSecurityKey(key),
 
 						// Set clockskew to zero so tokens expire
 						// exactly at token expiration time (instead of 5 minutes later)
-						ClockSkew = System.TimeSpan.Zero
+						ClockSkew =
+							System.TimeSpan.Zero
 					}, out Microsoft.IdentityModel.Tokens.SecurityToken validatedToken);
 
 				var jwtToken =
 					validatedToken as System.IdentityModel.Tokens.Jwt.JwtSecurityToken;
 
+				System.Security.Claims.Claim userIdClaim =
+					jwtToken.Claims
+					.Where(current => current.Type.ToLower() == "NameId".ToLower())
+					.FirstOrDefault();
+
+				// دقت کنید که دستور ذیل کار نمی‌کند
+				//.Where(current => current.Type == System.Security.Claims.ClaimTypes.NameIdentifier)
+
+				if (userIdClaim == null)
+				{
+					return;
+				}
+
 				var userId =
-					int.Parse(jwtToken.Claims.First(current => current.Type == "id").Value);
+					int.Parse(userIdClaim.Value);
+
+				Models.User foundedUser =
+					userService.GetById(userId);
+
+				if (foundedUser == null)
+				{
+					return;
+				}
 
 				// Attach user to context on successful jwt validation
-				context.Items["User"] =
-					userService.GetById(userId);
+				context.Items["User"] = foundedUser;
 			}
-			catch
+			catch // (System.Exception ex)
 			{
+				// Log ex
+				//string errorMessage = ex.Message;
+
 				// Do nothing if jwt validation fails
 				// user is not attached to context so request won't have access to secure routes
 			}

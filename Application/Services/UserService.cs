@@ -36,6 +36,7 @@ namespace Application.Services
 								Username = $"Username{ index }",
 								LastName = $"Last Name { index }",
 								FirstName = $"First Name { index }",
+								EmailAddress = $"Email{ index }.@Gmail.com",
 							};
 
 						_users.Add(user);
@@ -90,6 +91,7 @@ namespace Application.Services
 				return null;
 			}
 
+			// Note: Password should be in HASH!
 			if (string.Compare(foundedUser.Password, viewModel.Password, ignoreCase: false) != 0)
 			{
 				return null;

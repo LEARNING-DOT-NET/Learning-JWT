@@ -1,9 +1,11 @@
 ﻿--------------------------------------------------
+(1)
 https://jasonwatmore.com/post/2019/10/11/aspnet-core-3-jwt-authentication-tutorial-with-example-api
 https://docs.microsoft.com/en-us/aspnet/core/web-api/action-return-types?view=aspnetcore-5.0
 --------------------------------------------------
 
 --------------------------------------------------
+(2)
 Install Packages:
 
 Install-Package System.IdentityModel.Tokens.Jwt
@@ -32,7 +34,8 @@ Install-Package Microsoft.AspNetCore.Authentication.JwtBearer
 --------------------------------------------------
 
 --------------------------------------------------
-Update appsettings.json File:
+(3)
+Update appsettings.json File (Add AppSettings Key):
 
 {
 	"Logging": {
@@ -43,15 +46,14 @@ Update appsettings.json File:
 		}
 	},
 	"AllowedHosts": "*",
-
 	"AppSettings": {
 		"SecretKey": "asfdadsfsafdsfdsafdsafdsafdsafdsaf"
-
 	}
 }
 --------------------------------------------------
 
 --------------------------------------------------
+(4)
 Create Folder: Models
 
 Create Class (File) in Models Folder: User.cs
@@ -61,6 +63,7 @@ Note:
 --------------------------------------------------
 
 --------------------------------------------------
+(5)
 Create Folder: Infrastructure
 Create Folder in Infrastructure Folder: Attributes
 
@@ -71,12 +74,14 @@ Note:
 --------------------------------------------------
 
 --------------------------------------------------
+(6)
 Create Folder in Infrastructure Folder: ApplicationSettings
 
 Create Class (File) in ApplicationSettings Folder: Main.cs
 --------------------------------------------------
 
 --------------------------------------------------
+(7)
 Create Folder: ViewModels
 Create Folder in ViewModels Folder: Users
 
@@ -88,10 +93,7 @@ LoginResponseViewModel Class does not have Default Constructor!
 --------------------------------------------------
 
 --------------------------------------------------
-Create Class (File) in Infrastructure Folder: JwtUtility.cs
---------------------------------------------------
-
---------------------------------------------------
+(8)
 Create Folder: Services
 
 Create Interface (File) in Services Folder: IUserService.cs
@@ -99,75 +101,72 @@ Create Class (File) in Services Folder: UserService.cs
 --------------------------------------------------
 
 --------------------------------------------------
+(9)
+Create Class (File) in Infrastructure Folder: JwtUtility.cs
+--------------------------------------------------
+
+--------------------------------------------------
+(10)
 Create Folder in Infrastructure Folder: Middlewares
 Create Class (File) in Middlewares Folder: JwtMiddleware.cs
 --------------------------------------------------
 
 --------------------------------------------------
+(11)
 Create Class (File) in Controllers Folder: UsersController.cs
 
 Note:
-[Infrastructure.Attributes.Authorize]
+[Infrastructure.Attributes.Authorize] for Get Method (Action)
 --------------------------------------------------
 
 --------------------------------------------------
-Make Changes in Startup.cs File:
+(12)
+Update Startup.cs File:
 
-	Function:
-
+	public void ConfigureServices
+		(Microsoft.Extensions.DependencyInjection.IServiceCollection services)
+	{
 		services.AddCors();
 		services.AddControllers();
 
 		// Configure strongly typed settings object
-		services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
+		services.Configure<Infrastructure.ApplicationSettings.Main>
+			(Configuration.GetSection("AppSettings"));
 
 		// Configure DI for application services
-		services.AddScoped<IUserService, UserService>();
---------------------------------------------------
+		services.AddScoped<Services.IUserService, Services.UserService>();
+	}
 
---------------------------------------------------
-Update Startup.cs File:
+	public void Configure
+		(Microsoft.AspNetCore.Builder.IApplicationBuilder app,
+		Microsoft.AspNetCore.Hosting.IWebHostEnvironment env)
+	{
+		app.UseHttpsRedirection();
 
-		public void ConfigureServices
-			(Microsoft.Extensions.DependencyInjection.IServiceCollection services)
+		app.UseRouting();
+
+		// Global cors policy
+		app.UseCors(current => current
+			.AllowAnyOrigin()
+			.AllowAnyMethod()
+			.AllowAnyHeader());
+
+		// Custom JWT auth middleware
+		app.UseMiddleware<Infrastructure.Middlewares.JwtMiddleware>();
+
+		app.UseEndpoints(endpoints =>
 		{
-			services.AddCors();
-			services.AddControllers();
-
-			// Configure strongly typed settings object
-			services.Configure<Infrastructure.ApplicationSettings.Main>
-				(Configuration.GetSection("AppSettings"));
-
-			// Configure DI for application services
-			services.AddScoped<Services.IUserService, Services.UserService>();
-		}
-
-		public void Configure
-			(Microsoft.AspNetCore.Builder.IApplicationBuilder app,
-			Microsoft.AspNetCore.Hosting.IWebHostEnvironment env)
-		{
-			app.UseHttpsRedirection();
-
-			app.UseRouting();
-
-			// Global cors policy
-			app.UseCors(current => current
-				.AllowAnyOrigin()
-				.AllowAnyMethod()
-				.AllowAnyHeader());
-
-			// Custom JWT auth middleware
-			app.UseMiddleware<Infrastructure.Middlewares.JwtMiddleware>();
-
-			app.UseEndpoints(endpoints =>
-			{
-				endpoints.MapControllers();
-			});
-		}
+			endpoints.MapControllers();
+		});
+	}
 --------------------------------------------------
 
 --------------------------------------------------
 Tests:
+
+	Get All Users:
+
+		https://localhost:44390/users
 
 	Login:
 
@@ -177,7 +176,16 @@ Tests:
 		(2)
 		https://localhost:44390/users/login
 
-		{"username": "Username1", "password": "1234567890"}
 		{"username": "Username1", "password": "temp"}
 		{"username": "temp", "password": "1234567890"}
+
+		{"username": "Username1", "password": "1234567890"}
+
+		Check JWT (Token) in https://jwt.io/ Site!
+
+	Get All Users (Secured):
+
+		Check below action with token!
+
+		https://localhost:44390/users/getall
 --------------------------------------------------
