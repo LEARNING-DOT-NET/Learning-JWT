@@ -166,7 +166,7 @@ Tests:
 
 	Get All Users:
 
-		https://localhost:44390/users
+		https://localhost:44390/users/getall
 
 	Login:
 
@@ -187,5 +187,7 @@ Tests:
 
 		Check below action with token!
 
-		https://localhost:44390/users/getall
+		Postman: Authorization Tab -> Type: Bearer Token -> Token: The token gave by Login!
+
+		https://localhost:44390/users
 --------------------------------------------------
