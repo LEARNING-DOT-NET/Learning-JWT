@@ -24,28 +24,37 @@ namespace Application
 				(Configuration.GetSection("AppSettings"));
 
 			// Configure Swagger for application services
-			services.AddSwaggerGen(c =>
+			services.AddSwaggerGen(current =>
 			{
-				c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
+				current.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
 				{
 					Version = "v1",
+
 					Title = "Swagger Demo",
+
 					Description = "Swagger Demo",
-					TermsOfService = new System.Uri("https://example.com/terms"),
-					Contact = new Microsoft.OpenApi.Models.OpenApiContact()
-					{
-						Name = "Dariush Tasdighi",
-						Email = "Dariush.Tasdighi@Gmail.com",
-						Url = new System.Uri("https://www.linkedin.com/in/dariush-tasdighi"),
-					},
-					License = new Microsoft.OpenApi.Models.OpenApiLicense
-					{
-						Name = "Use under LICX",
-						Url = new System.Uri("https://example.com/license"),
-					}
+
+					TermsOfService =
+						new System.Uri("https://example.com/terms"),
+
+					Contact =
+						new Microsoft.OpenApi.Models.OpenApiContact()
+						{
+							Name = "Dariush Tasdighi",
+							Email = "Dariush.Tasdighi@Gmail.com",
+							Url = new System.Uri("https://www.linkedin.com/in/dariush-tasdighi"),
+						},
+
+					License =
+						new Microsoft.OpenApi.Models.OpenApiLicense
+						{
+							Name = "Use under LICX",
+
+							Url = new System.Uri("https://example.com/license"),
+						},
 				});
 
-				c.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+				current.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
 				{
 					Description = "JWT Authorization header using the Bearer scheme.",
 					Name = "Authorization",
@@ -54,27 +63,34 @@ namespace Application
 					Scheme = "Bearer"
 				});
 
-				c.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement()
+				current.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement()
 				{
 					{
 						new Microsoft.OpenApi.Models.OpenApiSecurityScheme
 						{
-							Reference = new Microsoft.OpenApi.Models.OpenApiReference
-							{
-								Type = Microsoft.OpenApi.Models.ReferenceType.SecurityScheme,
-								Id = "Bearer"
-							},
-							Scheme = "oauth2",
 							Name = "Bearer",
-							In = Microsoft.OpenApi.Models.ParameterLocation.Header,
+							Scheme = "oauth2",
+
+							In =
+								Microsoft.OpenApi.Models.ParameterLocation.Header,
+
+							Reference =
+								new Microsoft.OpenApi.Models.OpenApiReference
+								{
+									Type = Microsoft.OpenApi.Models.ReferenceType.SecurityScheme,
+									Id = "Bearer"
+								},
 						},
+
 						new System.Collections.Generic.List<string>()
 					}
 				});
 
-				var xmlPath = System.IO.Path.Combine(System.AppContext.BaseDirectory, "Application.xml");
-				c.IncludeXmlComments(xmlPath);
+				var xmlPath =
+					System.IO.Path.Combine
+					(System.AppContext.BaseDirectory, "Application.xml");
 
+				current.IncludeXmlComments(xmlPath);
 			});
 
 			// Configure DI for application services
