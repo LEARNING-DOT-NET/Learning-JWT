@@ -5,7 +5,8 @@ namespace Application.Services
 	public class UserService : object, IUserService
 	{
 		public UserService
-			(Microsoft.Extensions.Options.IOptions<Infrastructure.ApplicationSettings.Main> options) : base()
+			(Microsoft.Extensions.Options.IOptions
+			<Infrastructure.ApplicationSettings.Main> options) : base()
 		{
 			MainSettings = options.Value;
 		}
@@ -13,7 +14,7 @@ namespace Application.Services
 		protected Infrastructure.ApplicationSettings.Main MainSettings { get; }
 
 		// **************************************************
-		// Test Data!
+		// Test (Mock) Data!
 		// **************************************************
 		private System.Collections.Generic.List<Models.User> _users;
 
@@ -101,7 +102,7 @@ namespace Application.Services
 
 			string token =
 				Infrastructure.JwtUtility.GenerateJwtToken
-				(user: foundedUser, secretKey: MainSettings.SecretKey);
+				(user: foundedUser, mainSettings: MainSettings);
 
 			ViewModels.Users.LoginResponseViewModel response =
 				new ViewModels.Users.LoginResponseViewModel(user: foundedUser, token: token);

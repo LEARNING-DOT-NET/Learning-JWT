@@ -16,6 +16,8 @@ namespace Infrastructure.Attributes
 			Models.User user =
 				context.HttpContext.Items["User"] as Models.User;
 
+			//context.HttpContext.Request.Path
+
 			if (user == null)
 			{
 				// Not Logged in

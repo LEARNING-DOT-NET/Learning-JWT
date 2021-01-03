@@ -10,12 +10,13 @@ namespace Infrastructure
 		{
 		}
 
-		public static string GenerateJwtToken(Models.User user, string secretKey)
+		public static string GenerateJwtToken
+			(Models.User user, ApplicationSettings.Main mainSettings)
 		{
 			// Generate token that is valid for 8 hours
 
-			var key =
-				System.Text.Encoding.ASCII.GetBytes(secretKey);
+			byte[] key =
+				System.Text.Encoding.ASCII.GetBytes(mainSettings.SecretKey);
 
 			var symmetricSecurityKey =
 				new Microsoft.IdentityModel.Tokens.SymmetricSecurityKey(key: key);
@@ -34,8 +35,14 @@ namespace Infrastructure
 						new System.Security.Claims.ClaimsIdentity
 						(new[]
 						{
+							//new System.Security.Claims.Claim
+							//	(type: "RoleId", value: user.RoleId),
+
+							//new System.Security.Claims.Claim
+							//	(type: "LastName", value: user.LastName),
+
 							new System.Security.Claims.Claim
-								(type: "LastName", value: user.LastName),
+								(type: nameof(user.LastName), value: user.LastName),
 
 							new System.Security.Claims.Claim
 								(type: System.Security.Claims.ClaimTypes.Name, value: user.Username),
@@ -47,8 +54,14 @@ namespace Infrastructure
 								(type: System.Security.Claims.ClaimTypes.NameIdentifier, value: user.Id.ToString()),
 						}),
 
+					//Issuer = "",
+					//Audience = "",
+
+					//Expires =
+					//	System.DateTime.UtcNow.AddHours(8),
+
 					Expires =
-						System.DateTime.UtcNow.AddHours(8),
+						System.DateTime.UtcNow.AddMinutes(mainSettings.TokenExpiresInMinutes),
 
 					SigningCredentials = signingCredentials,
 				};
@@ -56,13 +69,13 @@ namespace Infrastructure
 			var tokenHandler =
 				new System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler();
 
-			var token =
-				tokenHandler.CreateToken(tokenDescriptor: tokenDescriptor);
+			Microsoft.IdentityModel.Tokens.SecurityToken
+				securityToken = tokenHandler.CreateToken(tokenDescriptor: tokenDescriptor);
 
-			string tokenString =
-				tokenHandler.WriteToken(token: token);
+			string token =
+				tokenHandler.WriteToken(token: securityToken);
 
-			return tokenString;
+			return token;
 		}
 
 		public static void AttachUserToContext
@@ -71,11 +84,11 @@ namespace Infrastructure
 		{
 			try
 			{
-				var tokenHandler =
-					new System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler();
-
 				var key =
 					System.Text.Encoding.ASCII.GetBytes(secretKey);
+
+				var tokenHandler =
+					new System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler();
 
 				tokenHandler.ValidateToken(token: token,
 					validationParameters: new Microsoft.IdentityModel.Tokens.TokenValidationParameters
@@ -85,16 +98,21 @@ namespace Infrastructure
 						ValidateIssuerSigningKey = true,
 
 						IssuerSigningKey =
-							new Microsoft.IdentityModel.Tokens.SymmetricSecurityKey(key),
+							new Microsoft.IdentityModel.Tokens.SymmetricSecurityKey(key: key),
 
 						// Set clockskew to zero so tokens expire
 						// exactly at token expiration time (instead of 5 minutes later)
 						ClockSkew =
-							System.TimeSpan.Zero
+							System.TimeSpan.Zero,
 					}, out Microsoft.IdentityModel.Tokens.SecurityToken validatedToken);
 
 				var jwtToken =
 					validatedToken as System.IdentityModel.Tokens.Jwt.JwtSecurityToken;
+
+				if (jwtToken == null)
+				{
+					return;
+				}
 
 				System.Security.Claims.Claim userIdClaim =
 					jwtToken.Claims

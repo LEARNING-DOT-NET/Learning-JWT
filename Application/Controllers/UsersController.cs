@@ -15,7 +15,7 @@
 
 		protected Services.IUserService UserService { get; }
 
-		//[Microsoft.AspNetCore.Mvc.HttpGet(template: "login")]
+		//[Microsoft.AspNetCore.Mvc.HttpPost(template: "login")]
 		//public ViewModels.Users.LoginResponseViewModel
 		//	Login(ViewModels.Users.LoginRequestViewModel viewModel)
 		//{
@@ -49,7 +49,7 @@
 
 		//	if (response == null)
 		//	{
-		//		return NotFound
+		//		return BadRequest
 		//			(new { message = "Username and/or password is not correct!" });
 		//	}
 
@@ -65,7 +65,7 @@
 
 		//	if (response == null)
 		//	{
-		//		return NotFound
+		//		return BadRequest
 		//			(new { message = "Username and/or password is not correct!" });
 		//	}
 
@@ -76,7 +76,7 @@
 		[Microsoft.AspNetCore.Mvc.ProducesResponseType
 			(Microsoft.AspNetCore.Http.StatusCodes.Status200OK)]
 		[Microsoft.AspNetCore.Mvc.ProducesResponseType
-			(Microsoft.AspNetCore.Http.StatusCodes.Status404NotFound)]
+			(Microsoft.AspNetCore.Http.StatusCodes.Status400BadRequest)]
 		public async System.Threading.Tasks.Task
 			<Microsoft.AspNetCore.Mvc.ActionResult<ViewModels.Users.LoginResponseViewModel>>
 			Login(ViewModels.Users.LoginRequestViewModel viewModel)
@@ -94,7 +94,7 @@
 
 			if (response == null)
 			{
-				return NotFound
+				return BadRequest
 					(new { message = "Username and/or password is not correct!" });
 			}
 

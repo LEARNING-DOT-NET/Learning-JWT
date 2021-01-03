@@ -10,6 +10,16 @@ namespace ViewModels.Users
 
 		public LoginResponseViewModel(Models.User user, string token)
 		{
+			if (user == null)
+			{
+				throw new System.ArgumentNullException(paramName: nameof(user));
+			}
+
+			if (string.IsNullOrWhiteSpace(token))
+			{
+				throw new System.ArgumentNullException(paramName: nameof(token));
+			}
+
 			Token = token;
 
 			Id = user.Id;

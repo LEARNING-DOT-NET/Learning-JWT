@@ -18,19 +18,20 @@ namespace Infrastructure.Middlewares
 
 		protected Microsoft.AspNetCore.Http.RequestDelegate Next { get; }
 
-		public async System.Threading.Tasks.Task
-			Invoke(Microsoft.AspNetCore.Http.HttpContext context, Application.Services.IUserService userService)
+		public async System.Threading.Tasks.Task Invoke
+			(Microsoft.AspNetCore.Http.HttpContext context,
+			Application.Services.IUserService userService)
 		{
 			var requestHeaders =
 				context.Request.Headers["Authorization"];
 
-			var token =
+			string token =
 				requestHeaders
 				.FirstOrDefault()
 				?.Split(" ")
 				.Last();
 
-			if (token != null)
+			if (string.IsNullOrWhiteSpace(token) == false)
 			{
 				JwtUtility.AttachUserToContext(context: context,
 					userService: userService, token: token, secretKey: MainSettings.SecretKey);

@@ -1,4 +1,13 @@
 ﻿--------------------------------------------------
+تاریخچه
+
+Session -> User Browse Some of Our Pages -> Session Start -> Session Id > Session -> Field(s)
+Username, RoleId, FullName,... -> RAM Server -> Session In Memory! -> Load Balancing ->
+5 Server -> 1 Server Login -> 4 Other Server (Login!) -> JWT جوت -> Node.js -> C#, Java, Python,...
+Login -> Token (JWT) -> Each Request -> Send Token (JWT) To Server -> Validate
+--------------------------------------------------
+
+--------------------------------------------------
 (1)
 https://jasonwatmore.com/post/2019/10/11/aspnet-core-3-jwt-authentication-tutorial-with-example-api
 https://docs.microsoft.com/en-us/aspnet/core/web-api/action-return-types?view=aspnetcore-5.0
