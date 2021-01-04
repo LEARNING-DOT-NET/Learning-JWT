@@ -72,11 +72,18 @@
 		//	return Ok(response);
 		//}
 
+		#region Login
+		// **************************************************
 		[Microsoft.AspNetCore.Mvc.HttpPost(template: "login")]
+
 		[Microsoft.AspNetCore.Mvc.ProducesResponseType
-			(Microsoft.AspNetCore.Http.StatusCodes.Status200OK)]
+			(typeof(ViewModels.Users.LoginResponseViewModel),
+			Microsoft.AspNetCore.Http.StatusCodes.Status200OK)]
+
 		[Microsoft.AspNetCore.Mvc.ProducesResponseType
-			(Microsoft.AspNetCore.Http.StatusCodes.Status400BadRequest)]
+			(typeof(ViewModels.General.ErrorViewModel),
+			Microsoft.AspNetCore.Http.StatusCodes.Status400BadRequest)]
+		// **************************************************
 		public async System.Threading.Tasks.Task
 			<Microsoft.AspNetCore.Mvc.ActionResult<ViewModels.Users.LoginResponseViewModel>>
 			Login(ViewModels.Users.LoginRequestViewModel viewModel)
@@ -94,12 +101,16 @@
 
 			if (response == null)
 			{
+				string errorMessage =
+					"Username and/or password is not correct!";
+
 				return BadRequest
-					(new { message = "Username and/or password is not correct!" });
+					(new ViewModels.General.ErrorViewModel(message: errorMessage));
 			}
 
 			return Ok(response);
 		}
+		#endregion /Login
 
 		[Microsoft.AspNetCore.Mvc.HttpGet(template: "GetAll")]
 		[Microsoft.AspNetCore.Mvc.ProducesResponseType
