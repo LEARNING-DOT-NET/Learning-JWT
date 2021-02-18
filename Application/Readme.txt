@@ -8,9 +8,13 @@ Login -> Token (JWT) -> Each Request -> Send Token (JWT) To Server -> Validate
 --------------------------------------------------
 
 --------------------------------------------------
+Postman
+--------------------------------------------------
+
+--------------------------------------------------
 (1)
-https://jasonwatmore.com/post/2019/10/11/aspnet-core-3-jwt-authentication-tutorial-with-example-api
 https://docs.microsoft.com/en-us/aspnet/core/web-api/action-return-types?view=aspnetcore-5.0
+https://jasonwatmore.com/post/2019/10/11/aspnet-core-3-jwt-authentication-tutorial-with-example-api
 --------------------------------------------------
 
 --------------------------------------------------

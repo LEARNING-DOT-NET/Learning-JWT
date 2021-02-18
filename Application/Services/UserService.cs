@@ -18,6 +18,9 @@ namespace Application.Services
 		// **************************************************
 		private System.Collections.Generic.List<Models.User> _users;
 
+		/// <summary>
+		/// Lazy Loading = Lazy Initialization
+		/// </summary>
 		protected System.Collections.Generic.List<Models.User> Users
 		{
 			get

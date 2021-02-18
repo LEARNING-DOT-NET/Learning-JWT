@@ -8,10 +8,12 @@ namespace ViewModels.Users
 		{
 		}
 
-		[System.ComponentModel.DataAnnotations.Required]
+		[System.ComponentModel.DataAnnotations.Required
+			(AllowEmptyStrings = false)]
 		public string Username { get; set; }
 
-		[System.ComponentModel.DataAnnotations.Required]
+		[System.ComponentModel.DataAnnotations.Required
+			(AllowEmptyStrings = false)]
 		public string Password { get; set; }
 	}
 }

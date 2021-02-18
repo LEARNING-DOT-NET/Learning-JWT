@@ -78,7 +78,7 @@ namespace Infrastructure
 			return token;
 		}
 
-		public static void AttachUserToContext
+		public static void AttachUserToContextByToken
 			(Microsoft.AspNetCore.Http.HttpContext context,
 			Application.Services.IUserService userService, string token, string secretKey)
 		{

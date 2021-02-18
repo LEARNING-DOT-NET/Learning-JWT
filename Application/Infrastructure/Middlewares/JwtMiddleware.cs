@@ -33,7 +33,7 @@ namespace Infrastructure.Middlewares
 
 			if (string.IsNullOrWhiteSpace(token) == false)
 			{
-				JwtUtility.AttachUserToContext(context: context,
+				JwtUtility.AttachUserToContextByToken(context: context,
 					userService: userService, token: token, secretKey: MainSettings.SecretKey);
 			}
 

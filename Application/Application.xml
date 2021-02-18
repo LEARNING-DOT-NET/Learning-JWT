@@ -4,5 +4,10 @@
         <name>Application</name>
     </assembly>
     <members>
+        <member name="P:Application.Services.UserService.Users">
+            <summary>
+            Lazy Loading = Lazy Initialization
+            </summary>
+        </member>
     </members>
 </doc>

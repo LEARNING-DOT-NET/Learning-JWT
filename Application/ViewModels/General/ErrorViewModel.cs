@@ -2,6 +2,10 @@
 {
 	public class ErrorViewModel : object
 	{
+		//public ErrorViewModel() : base()
+		//{
+		//}
+
 		public ErrorViewModel(string message) : base()
 		{
 			if (string.IsNullOrWhiteSpace(message))

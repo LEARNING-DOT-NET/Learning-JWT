@@ -84,14 +84,20 @@
 			(typeof(ViewModels.General.ErrorViewModel),
 			Microsoft.AspNetCore.Http.StatusCodes.Status400BadRequest)]
 		// **************************************************
-		public async System.Threading.Tasks.Task
+		public
+			async
+			System.Threading.Tasks.Task
 			<Microsoft.AspNetCore.Mvc.ActionResult<ViewModels.Users.LoginResponseViewModel>>
-			Login(ViewModels.Users.LoginRequestViewModel viewModel)
+			Login
+			(ViewModels.Users.LoginRequestViewModel viewModel)
 		{
 			ViewModels.Users.LoginResponseViewModel response = null;
 
 			//response =
 			//	UserService.Login(viewModel);
+
+			//response =
+			//	await UserService.Login(viewModel);
 
 			await System.Threading.Tasks.Task.Run(() =>
 			{
@@ -133,7 +139,7 @@
 			return Ok(response);
 		}
 
-		[Microsoft.AspNetCore.Mvc.HttpGet()]
+		[Microsoft.AspNetCore.Mvc.HttpGet]
 		[Infrastructure.Attributes.Authorize]
 		[Microsoft.AspNetCore.Mvc.ProducesResponseType
 			(Microsoft.AspNetCore.Http.StatusCodes.Status200OK)]
