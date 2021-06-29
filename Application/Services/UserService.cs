@@ -30,9 +30,9 @@ namespace Application.Services
 					_users =
 						new System.Collections.Generic.List<Models.User>();
 
-					for (int index = 1; index < 5; index++)
+					for (int index = 1; index <= 9; index++)
 					{
-						Models.User user =
+						var user =
 							new Models.User
 							{
 								Id = index,
@@ -59,12 +59,24 @@ namespace Application.Services
 				.Where(current => current.Id == id)
 				.FirstOrDefault();
 
+			//Models.User foundedUser =
+			//	DatabaseContext.Users
+			//	.Where(current => current.Id == id)
+			//	.FirstOrDefault();
+
 			return foundedUser;
 		}
 
 		public System.Collections.Generic.IEnumerable<Models.User> GetAll()
 		{
 			return Users;
+
+			//var users =
+			//	DatabaseContext.Users
+			//	.ToList()
+			//	;
+
+			//return users;
 		}
 
 		public ViewModels.Users.LoginResponseViewModel
@@ -85,10 +97,24 @@ namespace Application.Services
 				return null;
 			}
 
-			Models.User foundedUser =
+			var foundedUser =
 				Users
 				.Where(current => current.Username.ToLower() == viewModel.Username.ToLower())
 				.FirstOrDefault();
+
+			// کار می‌کند EF در
+			// کار نمی‌کند EF.Core در
+			//var foundedUser =
+			//	DatabaseContext.Users
+			//	.Where(current => string.Compare(current.Username, viewModel.Username, true) == 0)
+			//	.FirstOrDefault();
+
+			// کار می‌کند EF در
+			// کار می‌کند EF.Core در
+			//var foundedUser =
+			//	DatabaseContext.Users
+			//	.Where(current => current.Username.ToLower() == viewModel.Username.ToLower())
+			//	.FirstOrDefault();
 
 			if (foundedUser == null)
 			{
@@ -107,7 +133,7 @@ namespace Application.Services
 				Infrastructure.JwtUtility.GenerateJwtToken
 				(user: foundedUser, mainSettings: MainSettings);
 
-			ViewModels.Users.LoginResponseViewModel response =
+			var response =
 				new ViewModels.Users.LoginResponseViewModel(user: foundedUser, token: token);
 
 			return response;

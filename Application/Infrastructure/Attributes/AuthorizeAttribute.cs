@@ -1,7 +1,5 @@
 ﻿//namespace Application.Infrastructure.Attributes
 
-using Microsoft.AspNetCore.Mvc.Filters;
-
 namespace Infrastructure.Attributes
 {
 	[System.AttributeUsage(System.AttributeTargets.Class | System.AttributeTargets.Method)]
@@ -12,18 +10,23 @@ namespace Infrastructure.Attributes
 		{
 		}
 
+		//public void OnAuthorization
+		//	(Microsoft.AspNetCore.Mvc.Filters.AuthorizationFilterContext context)
+		//{
+		//	throw new System.NotImplementedException();
+		//}
+
 		public void OnAuthorization
 			(Microsoft.AspNetCore.Mvc.Filters.AuthorizationFilterContext context)
 		{
+			// احمقانه‌ترین روش کست کردن است
 			//Models.User user =
 			//	(Models.User)context.HttpContext.Items["User"];
 
-			Models.User user =
+			var user =
 				context.HttpContext.Items["User"] as Models.User;
 
-			//context.HttpContext.Request.Path
-
-			// Not Logged in
+			// Not Logged in or Request with Crupted Token or Request with Expired Token!
 			if (user == null)
 			{
 				context.Result =
@@ -34,6 +37,13 @@ namespace Infrastructure.Attributes
 							Microsoft.AspNetCore.Http.StatusCodes.Status401Unauthorized,
 					};
 			}
+
+			// If User != null
+
+			//context.HttpContext.Request.Path
+			//	/Products/Create
+
+			// Request to Database!
 		}
 	}
 

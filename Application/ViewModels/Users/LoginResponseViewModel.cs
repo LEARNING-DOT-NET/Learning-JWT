@@ -4,11 +4,11 @@ namespace ViewModels.Users
 {
 	public class LoginResponseViewModel : object
 	{
-		//public LoginResponseViewModel()
+		//public LoginResponseViewModel() : base()
 		//{
 		//}
 
-		public LoginResponseViewModel(Models.User user, string token)
+		public LoginResponseViewModel(Models.User user, string token) : base()
 		{
 			if (user == null)
 			{

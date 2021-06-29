@@ -8,7 +8,7 @@
 		//{
 		//}
 
-		public UsersController(Services.IUserService userService)
+		public UsersController(Services.IUserService userService) : base()
 		{
 			UserService = userService;
 		}
@@ -88,7 +88,7 @@
 			async
 			System.Threading.Tasks.Task
 			<Microsoft.AspNetCore.Mvc.ActionResult<ViewModels.Users.LoginResponseViewModel>>
-			Login
+			LoginAsync
 			(ViewModels.Users.LoginRequestViewModel viewModel)
 		{
 			ViewModels.Users.LoginResponseViewModel response = null;
@@ -121,9 +121,11 @@
 		[Microsoft.AspNetCore.Mvc.HttpGet(template: "GetAll")]
 		[Microsoft.AspNetCore.Mvc.ProducesResponseType
 			(Microsoft.AspNetCore.Http.StatusCodes.Status200OK)]
-		public async System.Threading.Tasks.Task
+		public
+			async
+			System.Threading.Tasks.Task
 			<Microsoft.AspNetCore.Mvc.ActionResult<System.Collections.Generic.IEnumerable<Models.User>>>
-			GetAll()
+			GetAllAsync()
 		{
 			//var response =
 			//	UserService.GetAll();
@@ -143,9 +145,12 @@
 		[Infrastructure.Attributes.Authorize]
 		[Microsoft.AspNetCore.Mvc.ProducesResponseType
 			(Microsoft.AspNetCore.Http.StatusCodes.Status200OK)]
-		public async System.Threading.Tasks.Task
-			<Microsoft.AspNetCore.Mvc.ActionResult<System.Collections.Generic.IEnumerable<Models.User>>>
-			Get()
+		public
+			async
+			System.Threading.Tasks.Task
+			<Microsoft.AspNetCore.Mvc.ActionResult
+				<System.Collections.Generic.IEnumerable<Models.User>>>
+			GetAsync()
 		{
 			System.Collections.Generic.IEnumerable<Models.User> response = null;
 

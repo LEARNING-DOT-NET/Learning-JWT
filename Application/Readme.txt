@@ -19,23 +19,21 @@ https://jasonwatmore.com/post/2019/10/11/aspnet-core-3-jwt-authentication-tutori
 
 --------------------------------------------------
 (2)
-Install Packages:
-
-Install-Package System.IdentityModel.Tokens.Jwt
-
-	Microsoft.IdentityModel.Tokens (>= 6.8.0)
-
-		Microsoft.IdentityModel.Logging (>= 6.8.0)
-
-	Microsoft.IdentityModel.JsonWebTokens (>= 6.8.0)
-
-		Microsoft.IdentityModel.Tokens (>= 6.8.0)
+Install Package(s):
 
 Install-Package Microsoft.AspNetCore.Authentication.JwtBearer
 
 	Microsoft.IdentityModel.Protocols.OpenIdConnect (>= 6.7.1)
 
-		System.IdentityModel.Tokens.Jwt (>= 6.8.0)
+		System.IdentityModel.Tokens.Jwt
+
+			Microsoft.IdentityModel.Tokens (>= 6.8.0)
+
+				Microsoft.IdentityModel.Logging (>= 6.8.0)
+
+			Microsoft.IdentityModel.JsonWebTokens (>= 6.8.0)
+
+				Microsoft.IdentityModel.Tokens (>= 6.8.0)
 
 		Microsoft.IdentityModel.Protocols (>= 6.8.0)
 
@@ -60,6 +58,7 @@ Update appsettings.json File (Add AppSettings Key):
 	},
 	"AllowedHosts": "*",
 	"AppSettings": {
+		"TokenExpiresInMinutes": 20,
 		"SecretKey": "asfdadsfsafdsfdsafdsafdsafdsafdsaf"
 	}
 }
@@ -120,12 +119,20 @@ Create Class (File) in Infrastructure Folder: JwtUtility.cs
 
 --------------------------------------------------
 (10)
+Create Class (File) in Controllers Folder: UsersController.cs
+
+Note:
+Learn Login Action!
+--------------------------------------------------
+
+--------------------------------------------------
+(11)
 Create Folder in Infrastructure Folder: Middlewares
 Create Class (File) in Middlewares Folder: JwtMiddleware.cs
 --------------------------------------------------
 
 --------------------------------------------------
-(11)
+(12)
 Create Class (File) in Controllers Folder: UsersController.cs
 
 Note:
@@ -133,7 +140,7 @@ Note:
 --------------------------------------------------
 
 --------------------------------------------------
-(12)
+(13)
 Update Startup.cs File:
 
 	public void ConfigureServices

@@ -19,6 +19,7 @@ namespace Models
 		public string EmailAddress { get; set; }
 
 		[System.Text.Json.Serialization.JsonIgnore]
+		//[System.Text.Json.Serialization.JsonIgnoreAttribute]
 		public string Password { get; set; }
 	}
 }
