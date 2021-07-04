@@ -132,6 +132,16 @@ Create Class (File) in Middlewares Folder: JwtMiddleware.cs
 --------------------------------------------------
 
 --------------------------------------------------
+Life Cycle Request:
+
+	User -> Request -> IIS -> Kestrel -> JwtMiddleware -> AuthorizeAttribute -> Action
+
+	Controller
+
+			Action ([AuthorizeAttribute])
+--------------------------------------------------
+
+--------------------------------------------------
 (12)
 In Controllers Folder -> Open UsersController.cs File
 
@@ -196,8 +206,8 @@ Tests:
 		(2)
 		https://localhost:44390/users/login
 
-		{"username": "Username1", "password": "temp"}
 		{"username": "temp", "password": "1234567890"}
+		{"username": "Username1", "password": "temp"}
 
 		{"username": "Username1", "password": "1234567890"}
 

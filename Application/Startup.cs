@@ -56,11 +56,12 @@ namespace Application
 
 				current.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
 				{
-					Description = "JWT Authorization header using the Bearer scheme.",
 					Name = "Authorization",
+					Description = "JWT Authorization header using the Bearer scheme.",
+
+					Scheme = "Bearer",
 					In = Microsoft.OpenApi.Models.ParameterLocation.Header,
 					Type = Microsoft.OpenApi.Models.SecuritySchemeType.ApiKey,
-					Scheme = "Bearer"
 				});
 
 				current.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement()
@@ -77,8 +78,8 @@ namespace Application
 							Reference =
 								new Microsoft.OpenApi.Models.OpenApiReference
 								{
+									Id = "Bearer",
 									Type = Microsoft.OpenApi.Models.ReferenceType.SecurityScheme,
-									Id = "Bearer"
 								},
 						},
 

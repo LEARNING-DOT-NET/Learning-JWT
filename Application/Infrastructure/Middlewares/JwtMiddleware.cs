@@ -18,8 +18,10 @@ namespace Infrastructure.Middlewares
 
 		protected Microsoft.AspNetCore.Http.RequestDelegate Next { get; }
 
-		public async System.Threading.Tasks.Task Invoke
-			(Microsoft.AspNetCore.Http.HttpContext context,
+		public
+			async
+			System.Threading.Tasks.Task
+			Invoke(Microsoft.AspNetCore.Http.HttpContext context,
 			Application.Services.IUserService userService)
 		{
 			var requestHeaders =
