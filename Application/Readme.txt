@@ -133,7 +133,7 @@ Create Class (File) in Middlewares Folder: JwtMiddleware.cs
 
 --------------------------------------------------
 (12)
-Create Class (File) in Controllers Folder: UsersController.cs
+In Controllers Folder -> Open UsersController.cs File
 
 Note:
 [Infrastructure.Attributes.Authorize] for Get Method (Action)

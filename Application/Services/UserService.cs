@@ -67,6 +67,18 @@ namespace Application.Services
 			return foundedUser;
 		}
 
+		/*
+		{
+			"username": "username",
+			"password": "12345"
+		}
+
+		{
+			"username": "username1",
+			"password": "1234567890"
+		}
+		*/
+
 		public System.Collections.Generic.IEnumerable<Models.User> GetAll()
 		{
 			return Users;
